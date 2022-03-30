@@ -1,3 +1,5 @@
+const mongoose = require('mongoose')
+
 const Product = require('../../models/product')
 
 /**
@@ -26,8 +28,22 @@ const insert =async (name, price, seller, category, description='')=>{
     
 }
 
+/**
+ * 
+ * Delete a product item by id
+ * @author Sai Marn Pha
+ * 
+ * @param {ObjectId} id - the item id which will be deleted
+ * 
+ * @returns Object
+ */
+const deleteById =async (id)=>{
 
+    return await Product.deleteOne({'_id':  mongoose.Types.ObjectId(id)});
+    
+}
 
 module.exports={
-    insert
+    insert,
+    deleteById
 }

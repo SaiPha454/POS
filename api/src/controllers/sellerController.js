@@ -26,9 +26,31 @@ const uploadItem= async (req, res, next)=>{
     res.status(201).send( response.response(201, 'success', meta, result) );
 }
 
+/**
+ * Delete a product item by id
+ * @author Sai Marn Pha
+ * 
+ * @param {ObjectId} id - the item id which will be deleted
+ * 
+ * @returns Object
+ */
+const deleteItem= async (req, res)=>{
 
+    let { id } = req.params;
+    
+    let result = await sellerDao.deleteById(id);
+
+    if(result.deletedCount == 0){
+
+        return res.status(400).send(response.errorResponse(400,'The item with the specified id was not found'));
+    }
+
+    let meta = {'_id': id};
+    return res.status(200).send(response.response(200, 'success', meta ));
+}
 
 module.exports={
-    uploadItem
+    uploadItem,
+    deleteItem
     
 }
