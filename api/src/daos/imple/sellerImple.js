@@ -25,7 +25,6 @@ const insert =async (name, price, seller, category, description='')=>{
     });
 
     return await item.save();
-    
 }
 
 /**
