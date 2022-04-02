@@ -11,9 +11,8 @@ require('./src/startUp/db')();
 const port = process.env.PORT || 3000;
 
 //start the server
-const server = app.listen(port, ()=>{
-    console.log(`Server is running on ${port}`)
-})
+const server = app.listen(port, () => console.log(`Server is running on http://localhost:${port}`))
+
 
 
 module.exports = server;
