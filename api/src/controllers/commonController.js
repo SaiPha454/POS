@@ -27,7 +27,64 @@ const getItemById = async (req, res)=>{
     res.status(200).json(response.response(200, 'success', meta, item));
 }
 
+/**
+ * Get all products when no options are applied or filter, sort and paginate items with the specified options.
+ * 
+ * @author Sai Marn Pha
+ * @param {number} page - the pagination page index
+ * @param {number} limit - the number of items per page
+ * @param {Object} filter - filter object to parse in mongoDB query (eg. filter[name]= 'samsaung')
+ * @param {Object} sort - sort object to parse in mongoDB qeury (eg. sort[name]= -1)
+ * 
+ * @returns Object
+ */
+const getAllItems= async (req, res)=>{
+
+    let {page, limit, filter, sort}= req.query;
+    page = parseInt(page);
+    limit = parseInt(limit);
+
+    if(page && !limit ) limit = 15 ;
+
+    let result ;
+
+    try {
+        result = await commonDao.getAllItems(page, limit, filter, sort);
+    } catch (error) {
+        
+        return res.status(400).json(response.errorResponse(400, 'Fail to retrive items'))
+    }
+    
+    let {total_items, total_pages, items, skip } = result;
+    
+    if( total_pages == 0){
+
+        return res.status(200).json(response.response(200, 'success', {total: total_items}, items))
+    }
+
+    let meta = {
+        total_items,
+        total_pages,
+        page,
+        limit,
+        filter,
+        sort,
+        skip
+    }
+
+    let links = {
+        fist: req.originalUrl.replace('page='+page, 'page=1'),
+        last: req.originalUrl.replace('page='+page, 'page='+total_pages),
+        self: req.originalUrl,
+        next: page >= total_pages ? '' : req.originalUrl.replace('page='+page, 'page='+ ( page + 1)),
+        prev: page <= 1 ? '' : req.originalUrl.replace('page='+page, 'page='+ ( page - 1))
+    }
+
+    return res.status(200).json(response.response(200, 'success', meta, items, links))
+
+}
 
 module.exports={
-    getItemById
+    getItemById,
+    getAllItems
 }
