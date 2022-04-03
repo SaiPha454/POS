@@ -116,9 +116,9 @@
         }
     ```
 
-## Route - /admin/sellers/burn/:id
+## Route - /admin/sellers/ban/:id
 + ### Description
-  - burn a seller
+  - ban a seller
 + ### Method - Patch
 + ### Params
   -  id - seller ObjectId (required)
@@ -138,7 +138,7 @@
             "_id": ObjectId,
             "name": "seller name",
             "email": "seller@gmail.com",
-            "status": "burn"
+            "status": "banned"
         }
     }
     ```
