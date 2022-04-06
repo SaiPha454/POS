@@ -9,31 +9,27 @@ const createOne = async (name, email, password) => {
 
   return await seller.save();
 }
-const findEmail = async (email) => await Seller.findOne({ email });;
+const findEmail = async (email) => await Seller.findOne({ email });
 
-const selectAlls = async () => await Seller.find();
+const selectAlls = async () => await Seller.find().select('-password');
 
-const selectOne = async (id) => await Seller.findById(id);
+const selectOne = async (id) => await Seller.findById(id).select('-password');
 
-const updateOne = async (id, name, email, password) => {
-  return await Seller.findByIdAndUpdate(id, { name, email, password }, { new: true })
-}
 
 const deleteOne = async (id) => {
   const seller = await Seller.findByIdAndRemove(id);
   return await Product.find({ seller: seller.id }).deleteMany()
 }
 
-
 const activateSeller = async (id) => {
-  return await Seller.findByIdAndUpdate({ _id: id, banned: true }, { banned: false }, { new: true })
+  return await Seller.findByIdAndUpdate({ _id: id, status: 'banned' }, { status: 'active' }, { new: true }).select('-password')
 }
 const banSeller = async (id) => {
-  return await Seller.findByIdAndUpdate({ _id: id, banned: false }, { banned: true }, { new: true })
+  return await Seller.findByIdAndUpdate({ _id: id, status: 'active' }, { status: 'banned' }, { new: true }).select('-password')
 }
 module.exports = {
   createOne, findEmail,
   selectAlls,
-  selectOne, updateOne,
+  selectOne,
   deleteOne, activateSeller, banSeller
 }

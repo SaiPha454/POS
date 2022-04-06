@@ -25,9 +25,9 @@ const sellerSchema = new mongoose.Schema({
     min: 5,
     max: 1024
   },
-  banned: {
-    type: Boolean,
-    default: false
+  status: {
+    type: String,
+    default: "active"
   }
 });
 sellerSchema.pre('save', async function (next) {

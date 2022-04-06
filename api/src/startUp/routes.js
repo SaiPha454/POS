@@ -1,11 +1,11 @@
 const express = require('express');
 
 const seller = require('../routes/seller');
-const adminSeller = require('../routes/adminSeller');
+const adminSellers = require('../routes/adminSellers');
 module.exports = (app) => {
 
     app.use(express.json())
     app.use('/seller', seller)
-    app.use('/admin/seller', adminSeller);
+    app.use('/admin/sellers', adminSellers);
 
 }
