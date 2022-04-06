@@ -6,7 +6,7 @@ router.post('/', createOne)
 router.get('/', selectAlls)
 router.get('/:id', validateObjectId, selectOne)
 router.delete('/:id', validateObjectId, deleteOne)
-router.put('/activate/:id', validateObjectId, activateSeller)
-router.put('/ban/:id', validateObjectId, banSeller)
+router.patch('/activate/:id', validateObjectId, activateSeller)
+router.patch('/ban/:id', validateObjectId, banSeller)
 
 module.exports = router;

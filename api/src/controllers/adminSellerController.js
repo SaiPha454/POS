@@ -11,11 +11,12 @@ const adminSellerDao = require('../daos/adminSeller_dao')
 const createOne = async (req, res) => {
   const { name, email, password } = req.body
   let seller = await adminSellerDao.findEmail(email);
-  if (seller) return res.status(400).send('This Seller Email is  Already Registered...');
+  if (seller) return res.status(400).send(response.errorResponse(400, 'This Seller Email is  Already Registered...'));
 
   seller = await adminSellerDao.createOne(name, email, password)
   if (!seller) return res.status(400).send(response.errorResponse(400, 'Something wrong when creating seller...'));
 
+  delete seller._doc.password;
   const meta = { '_id': seller._id };
   return res.status(201).send(response.response(201, 'success', meta, seller));
 }
@@ -25,12 +26,11 @@ const createOne = async (req, res) => {
  * @returns Object
  */
 const selectAlls = async (req, res) => {
-  const TOTAL_NUMBER = 10;
-  const meta = { 'total': TOTAL_NUMBER };
-
+  
   const sellers = await adminSellerDao.selectAlls();
   if (!sellers) return res.status(400).send(response.errorResponse(400, 'fail to fetching Sellers'));
 
+  const meta = { 'total': sellers.length };
   return res.status(200).send(response.response(200, 'success', meta, sellers));
 }
 
@@ -55,7 +55,7 @@ const selectOne = async (req, res) => {
 const deleteOne = async (req, res) => {
   const seller = await adminSellerDao.deleteOne(req.params.id);
   if (!seller) return res.status(400).send(response.errorResponse(404, 'The seller with the given ID not found '));
-  return res.status(200).send(response.response(200, 'deleted successfully', seller));
+  return res.status(200).send(response.response(200, 'deleted successfully'));
 }
 
 /**
