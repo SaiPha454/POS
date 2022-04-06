@@ -43,12 +43,11 @@
 
 ## Route - /user/carts/:id (session)
 + ### Description
-  - remove an item from the shopping cart
-+ ### Method - Delete
+  - reduce an item quantity from the shopping cart
++ ### Method - Patch
 + ### Params
   -  id - product item ObjectId (req)
-  -  qty - 1   (req)
-  -  drop - true (option) //if specified, drop the item with the specified id from the cart
+  -  qty - 1  (req)
 
 + ### Return
     <br/>
@@ -59,6 +58,46 @@
         "message": "sucess",
         "meta":{
             "_id": ObjectId //removed item id
+        },
+        "data": [
+            
+            {
+                "_id": ObjectId,
+                "name": "Product name", 
+                "price": 1200,
+                "qty": 5,
+                "seller_id": ObjectId
+            },
+            ...
+        ]
+    }
+    ```
++ ### Error
+    <br/>
+     
+     ```json
+        {
+            "status": 400,
+            "message": "fail"
+        }
+     ```
+
+## Route - /user/carts/:id (session)
++ ### Description
+  - drop an item from the shopping cart
++ ### Method - Delete
++ ### Params
+  -  id - product item ObjectId (req)
+
++ ### Return
+    <br/>
+
+    ``` json
+    {
+        "status": 200,
+        "message": "sucess",
+        "meta":{
+            "_id": ObjectId //deleted item id
         }
     }
     ```
