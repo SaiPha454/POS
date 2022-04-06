@@ -1,14 +1,12 @@
 const mongoose = require('mongoose');
 
 
-module.exports=() => {
-    
+module.exports = () => {
     const uri = process.env.mongodbUri;
-    mongoose.connect(uri)
-    .then(()=>{
-        console.log('mongodb is connected successfully')
-    }).catch(()=>{
-        console.log('Fail to connect MongoDB server.')
-    });
-
+    mongoose.connect(uri, { useNewUrlParser: true })
+        .then(() => {
+            console.log(`mongodb is connected to ${uri}`)
+        }).catch(() => {
+            console.log('Fail to connect MongoDB server.')
+        });
 }
