@@ -9,7 +9,7 @@
   -  name - Product Name (req)
   -  price - 1200 (req)
   -  qty - 1 (req)
-  -  user_id - user objectId (req)
+  -  seller_id - seller id of the product
 
 + ### Return
     <br/>
@@ -27,7 +27,7 @@
             "name": "Product name", 
             "price": 1200,
             "qty": 1,
-            "user_id": ObjectId
+            "seller_id": ObjectId
         }
     }
     ```
@@ -47,7 +47,7 @@
 + ### Method - Delete
 + ### Params
   -  id - product item ObjectId (req)
-  -  qty - 1 (req)
+  -  qty - 1   (req)
   -  drop - true (option) //if specified, drop the item with the specified id from the cart
 
 + ### Return
@@ -94,7 +94,7 @@
                 "name": "Product name", 
                 "price": 1200,
                 "qty": 5,
-                "user_id": ObjectId
+                "seller_id": ObjectId
             },
             ...
         ]
@@ -145,7 +145,7 @@
                     "name": "Product name", 
                     "price": 1200,
                     "qty": 5,
-                    "user_id": ObjectId
+                    "seller_id": ObjectId
                 },
                 ...
             ]
@@ -194,7 +194,7 @@
                         "name": "Product name", 
                         "price": 1200,
                         "qty": 5,
-                        "user_id": ObjectId
+                        "seller_id": ObjectId
                     },
                     ...
                 ]
@@ -213,7 +213,7 @@
                         "name": "Product name", 
                         "price": 1200,
                         "qty": 5,
-                        "user_id": ObjectId
+                        "seller_id": ObjectId
                     },
                     ...
                 ]
