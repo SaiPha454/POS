@@ -12,7 +12,7 @@
 
     ``` json
     {
-        "status": 201,
+        "status": 200,
         "message": "sucess",
         "meta":{
             "total": 10 //total orders
