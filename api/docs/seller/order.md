@@ -1,6 +1,6 @@
 # Seller - order endpoints
 
-## Route - /seller/:id/orders (session)
+## Route - /seller/:id/orders
 + ### Description
   - Get all orders of items belonged to the seller. An order can contain multiple items of multiple sellers. A seller can only see orders related to his items and  only his own items in the order, not others.
 + ### Method - Get
