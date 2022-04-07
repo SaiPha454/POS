@@ -3,6 +3,7 @@ const express = require('express');
 const seller = require('../routes/seller');
 const adminSellers = require('../routes/adminSellers');
 const categories = require('../routes/categories');
+const common = require('../routes/common')
 
 module.exports = (app) => {
 
@@ -12,4 +13,5 @@ module.exports = (app) => {
     app.use('/admin/sellers', adminSellers);
     app.use('/admin/categories', categories);
 
+    app.use('/', common);
 }
