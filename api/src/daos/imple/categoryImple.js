@@ -3,9 +3,9 @@ const mongoose = require('mongoose')
 const Category = require('../../models/category')
 
 /**
- * Insert a new item
+ * Insert a new category
  * 
- * @param {string} name - category item name
+ * @param {string} name - category name
  * 
  * @returns Object
  */
@@ -21,22 +21,10 @@ const insert = async (name) => {
 }
 
 /**
- * Get items
+ * update a category
  * 
- * @returns Array
- */
-
-const index = async () => {
-
-    return await Category.find();
-
-}
-
-/**
- * Update item
- * 
- * @param {string} id - category item id
- * @param {string} name - category item name
+ * @param {ObjectId} id - category id
+ * @param {string} name - category name
  * 
  * @returns Object
  */
@@ -44,20 +32,25 @@ const index = async () => {
 const update = async (id, name) => {
     const catId = mongoose.Types.ObjectId(id);
 
-    const result = await Category.updateOne({ '_id': catId }, { name })
-
-    if(result.matchedCount) {
-        return await Category.findOne({'_id': catId});
-    } else {
-        return result;
-    }
-
+    return await Category.updateOne({ '_id': catId }, { name });
 }
+
 /**
+ * get a category
  * 
- * Delete a category item by id
- *  
- * @param {ObjectId} id - the item id which will be deleted
+ * @param {ObjectId} id - category id
+ * 
+ * @returns Object
+ */
+const findById= async (id)=>{
+
+    return await Category.findOne({'_id': mongoose.Types.ObjectId(id)});
+}
+
+/**
+ * Delete a category by id
+ * 
+ * @param {ObjectId} id - the category id which will be deleted
  * 
  * @returns Object
  */
@@ -69,7 +62,7 @@ const deleteById = async (id) => {
 
 module.exports = {
     insert,
-    index,
     update,
-    deleteById
+    deleteById,
+    findById
 }

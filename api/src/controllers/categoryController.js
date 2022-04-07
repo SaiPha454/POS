@@ -4,14 +4,14 @@ const categoryDao = require('../daos/category_dao');
 
 
 /**
- * Insert a new item
+ * Insert a new category
  * 
- * @param {string} name - product item name
+ * @param {string} name - category name
  * 
  * @returns Object
  */
 
-const uploadItem = async (req, res, next) => {
+const createCategory = async (req, res, next) => {
 
     let { name } = req.body;
 
@@ -23,49 +23,37 @@ const uploadItem = async (req, res, next) => {
 }
 
 /**
- * Get items
+ * update a category
  * 
- * @returns Array
- */
-const index = async (req, res, next) => {
-
-    let result = await categoryDao.index()
-
-    let meta = { 'total': result.length };
-
-    return res.status(200).send(response.response(200, 'success', meta, result));
-}
-/**
- * Insert a new item
- * 
- * @param {string} name - product item name
+ * @param {ObjectId} id - category id
+ * @param {string} name - category name
  * 
  * @returns Object
  */
-
-const updateItem = async (req, res, next) => {
+const updateCategory = async (req, res, next) => {
     let { id } = req.params;
     let { name } = req.body;
 
     let result = await categoryDao.update(id, name)
 
-    if (result) {
-        let meta = { '_id': result._id };
-
-        return res.status(200).send(response.response(200, 'Updated successfully', meta, result));
-    } else {
-        return res.status(404).send(response.errorResponse(404, 'The item with the specified id was not found'));
+    if(result.matchedCount == 0){
+        return res.status(404).send(response.errorResponse(404, 'The category with the specified id was not found'));
     }
 
+    result= await categoryDao.findById(id);
+
+    let meta = { '_id': result._id };
+    return res.status(200).send(response.response(200, 'Updated successfully', meta, result));
 }
+
 /**
- * Delete a category item by id
+ * Delete a category by id
  * 
- * @param {ObjectId} id - the item id which will be deleted
+ * @param {ObjectId} id - the category id which will be deleted
  * 
  * @returns Object
  */
-const deleteItem = async (req, res) => {
+const deleteCategory = async (req, res) => {
 
     let { id } = req.params;
 
@@ -73,17 +61,16 @@ const deleteItem = async (req, res) => {
 
     if (result.deletedCount == 0) {
 
-        return res.status(404).send(response.errorResponse(404, 'The item with the specified id was not found'));
+        return res.status(404).send(response.errorResponse(404, 'The category with the specified id was not found'));
     }
 
     let meta = { '_id': id };
-    return res.status(204).send(response.response(204, 'deleted successfully', meta));
+    return res.status(200).send(response.response(200, 'deleted successfully', meta));
 }
 
 module.exports = {
-    uploadItem,
-    index,
-    updateItem,
-    deleteItem
+    createCategory,
+    updateCategory,
+    deleteCategory
 
 }
