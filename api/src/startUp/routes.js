@@ -2,7 +2,7 @@ const express = require('express');
 
 const seller = require('../routes/seller');
 const adminSellers = require('../routes/adminSellers');
-const categories = require('../routes/admin/categories');
+const categories = require('../routes/categories');
 
 module.exports = (app) => {
 

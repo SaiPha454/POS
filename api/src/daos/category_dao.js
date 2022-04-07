@@ -1,35 +1,37 @@
 const categoryImple = require('./imple/categoryImple')
 
 /**
- * Insert a new item
+ * Insert a new category
  * 
- * @param {string} name - category item name
+ * @param {string} name - category name
  * 
  * @returns Object
  */
 const insert = async (name) => categoryImple.insert(name);
 
 /**
- * Get items
+ * update a category
  * 
- * @returns Array
- */
-const index = async () => categoryImple.index();
-
-/**
- * Update item
- * 
- * @param {string} _id - category item _id
- * @param {string} name - category item name
+ * @param {ObjectId} id - category id
+ * @param {string} name - category name
  * 
  * @returns Object
  */
 const update = async (id, name) => categoryImple.update(id, name);
 
 /**
- * Delete a category item by id
+ * get a category
  * 
- * @param {ObjectId} id - the item id which will be deleted
+ * @param {ObjectId} id - category id
+ * 
+ * @returns Object
+ */
+const findById= async (id)=> categoryImple.findById(id);
+
+/**
+ * Delete a category by id
+ * 
+ * @param {ObjectId} id - the category id which will be deleted
  * 
  * @returns Object
  */
@@ -37,7 +39,7 @@ const deleteById = async (id) => categoryImple.deleteById(id);
 
 module.exports = {
     insert,
-    index,
     update,
-    deleteById
+    deleteById,
+    findById
 }
