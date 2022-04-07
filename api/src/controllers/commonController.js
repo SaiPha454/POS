@@ -84,7 +84,21 @@ const getAllItems= async (req, res)=>{
 
 }
 
+/**
+ * get a list of all categories
+ * @param No params
+ * 
+ * @returns Object 
+ */
+const getAllCategories= async (req, res)=>{
+   
+    let categories = await commonDao.getAllCategories();
+
+    return res.status(200).json(response.response(200, 'success', { total: categories.length } , categories))
+}
+
 module.exports={
     getItemById,
-    getAllItems
+    getAllItems,
+    getAllCategories
 }

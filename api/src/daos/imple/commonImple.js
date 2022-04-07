@@ -1,5 +1,6 @@
 const mongoose = require("mongoose")
 const Product = require("../../models/product")
+const Category = require('../../models/category')
 
 /**
  * Get detail of a product item by id
@@ -53,8 +54,20 @@ const getAllItems= async (page, limit= 0, filter={}, sort={})=>{
     }
 }
 
+/**
+ * get a list of all categories
+ * @param No params
+ * 
+ * @returns Object 
+ */
+const getAllCategories= async ()=>{
+
+    return await Category.find();
+}
+
 module.exports={
 
     getItemById,
-    getAllItems
+    getAllItems,
+    getAllCategories
 }

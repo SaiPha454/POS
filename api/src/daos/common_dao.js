@@ -23,7 +23,16 @@ const getItemById = async (id) => commonImple.getItemById(id);
  */
 const getAllItems = async (page, limit, filter, sort)=> commonImple.getAllItems(page, limit, filter, sort);
 
+/**
+ * get a list of all categories
+ * @param No params
+ * 
+ * @returns Object 
+ */
+const getAllCategories = async ()=> commonImple.getAllCategories();
+
 module.exports={
     getItemById,
-    getAllItems
+    getAllItems,
+    getAllCategories
 }
