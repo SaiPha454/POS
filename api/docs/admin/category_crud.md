@@ -37,7 +37,7 @@
 ## Route - /admin/categories/:id
 + ### Description
   - update a category
-+ ### Method - Put
++ ### Method - Patch
 + ### Params
   -  name - Category Name (required)
   -  id - category ObjectId (required)
