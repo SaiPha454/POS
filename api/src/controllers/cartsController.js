@@ -12,12 +12,12 @@ const cartsDao = require('../daos/carts_dao')
  * @returns Object
  */
 const createCart = async (req, res) => {
-  const { id, name, price, qty, seller_id } = req.body
-  const carts = await cartsDao.insert(id, name, price, qty, seller_id)
-  if (!carts) return res.status(400).send(response.errorResponse(400, 'Something wrong when creating carts...'));
 
-  const meta = { '_id': carts._id };
-  return res.status(201).send(response.response(201, 'success', meta, carts));
+  const { id, name, price, qty, seller_id } = req.body;
+  const item = await cartsDao.insert(id, name, price, qty, seller_id, req.session);
+  
+  const meta = { '_id': id };
+  return res.status(201).send(response.response(201, 'success', meta, item));
 }
 
 /**
@@ -27,27 +27,28 @@ const createCart = async (req, res) => {
  * @returns Object
  */
 const selectAllCarts = async (req, res) => {
-  const carts = await cartsDao.selectAllCarts();
-  if (!carts) return res.status(400).send(response.errorResponse(400, 'fail to fetching Carts'));
-
-  return res.status(200).send(response.response(200, 'success', null, carts));
+  let carts = await cartsDao.selectAllCarts(req.session);
+  if (!carts) carts= [];
+  
+  return res.status(200).send(response.response(200, 'success', {}, carts));
 }
 
 /**
  * update a cart
  * 
- * @param {string} name - carts name
+ * @param {string} qty - quantity of item to decrease
  * @param {ObjectId} id - cart id 
  * 
  * @returns Object
  */
-const updateCart = async (req, res) => {
+const decreaseCart = async (req, res) => {
   let { id } = req.params;
-  const cart = await cartsDao.update(id)
-  if (!cart) return res.status(400).send(response.errorResponse(400, 'Something wrong when updating cart...'));
+  let { qty } = req.body;
+  const cart = await cartsDao.update(id, qty, req.session)
+  if (!cart) return res.status(400).send(response.errorResponse(400, 'fail to descrease'));
 
   const meta = { '_id': cart._id };
-  return res.status(200).send(response.response(201, 'success', meta, cart));
+  return res.status(200).send(response.response(201, 'success', meta, cart.items));
 }
 
 /**
@@ -58,15 +59,15 @@ const updateCart = async (req, res) => {
  * @returns Object
  */
 const deleteCart = async (req, res) => {
-  const cart = await cartsDao.deleteById(req.params.id);
-  if (!cart) return res.status(400).send(response.errorResponse(404, 'The seller with the given ID not found '));
+  const item = await cartsDao.deleteById(req.params.id, req.session);
+  if (!item) return res.status(400).send(response.errorResponse(404, 'The item with the given id not found '));
 
-  const meta = { '_id': cart._id };
+  const meta = { '_id': item._id };
   return res.status(200).send(response.response(200, 'deleted successfully', meta));
 
 }
 
 module.exports = {
   createCart, selectAllCarts,
-  updateCart, deleteCart,
+  decreaseCart, deleteCart,
 }

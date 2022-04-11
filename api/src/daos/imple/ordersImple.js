@@ -1,22 +1,23 @@
 const mongoose = require('mongoose')
-const { Order, Cart } = require('../../models')
+const { Order } = require('../../models')
 
 
 /**
- * Insert a new cart
+ * Make a new order
  * 
  * @param {ObjectId} id - user id
  * @param {string} address - user address
+ * @param {Array} items - items to be ordered
+ * 
  * @returns Object
  */
-const createOrder = async (_id, address) => {
-  const cart = await Cart.find()
+const createOrder = async (id, address, items) => {
   const orders = new Order({
     user: {
-      _id,
+      _id: id,
       address
     },
-    items: cart
+    items
   });
   return await orders.save()
 }
@@ -24,7 +25,7 @@ const createOrder = async (_id, address) => {
  * select order by user Id
  * @returns Object
  */
-const selectOrders = async (id) => await Order.find({ "user._id": id });
+const selectOrders = async (id) => await Order.find({ "user._id": mongoose.Types.ObjectId(id) });
 
 
 
