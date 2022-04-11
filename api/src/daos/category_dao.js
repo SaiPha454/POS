@@ -37,9 +37,17 @@ const findById= async (id)=> categoryImple.findById(id);
  */
 const deleteById = async (id) => categoryImple.deleteById(id);
 
+/**
+ * get a list of all categories
+ * @param No params
+ * 
+ * @returns Object 
+ */
+ const findAll = async ()=> categoryImple.findAll();
 module.exports = {
     insert,
     update,
     deleteById,
+    findAll,
     findById
 }

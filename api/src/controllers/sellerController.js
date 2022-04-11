@@ -1,92 +1,91 @@
 const { response } = require('../utils');
-
-const sellerDao = require('../daos/seller_dao');
-
+const sellerDao = require('../daos/seller_dao')
 
 /**
- * Insert a new item
- * 
- * @param {string} name - product item name
- * @param {number} price - product item price
- * @param {ObjectId} seller - seller id
- * @param {ObjectId} category - category id
- * @param {string} description - description text for the item
- * 
+ * create a new item
+ * @param {string} name - seller name
+ * @param {string} email - seller email
+ * @param {string} password - seller password
  * @returns Object
  */
+const createOne = async (req, res) => {
+  const { name, email, password } = req.body
+  let seller = await sellerDao.findEmail(email);
+  if (seller) return res.status(400).send(response.errorResponse(400, 'This Seller Email is  Already Registered...'));
 
-const uploadItem= async (req, res, next)=>{
-    
-    let  { name, price, seller, category, description} = req.body ;
-    
-    let result = await sellerDao.insert(name, price, seller, category, description)
+  seller = await sellerDao.createOne(name, email, password)
+  if (!seller) return res.status(400).send(response.errorResponse(400, 'Something wrong when creating seller...'));
 
-    let meta = { '_id': result._id };
-    
-    res.status(201).send( response.response(201, 'success', meta, result) );
+  delete seller._doc.password;
+  const meta = { '_id': seller._id };
+  return res.status(201).send(response.response(201, 'success', meta, seller));
 }
 
 /**
- * Delete a product item by id
- * @author Sai Marn Pha
- * 
- * @param {ObjectId} id - the item id which will be deleted
- * 
+ * Select All Sellers
  * @returns Object
  */
-const deleteItem= async (req, res)=>{
+const selectAlls = async (req, res) => {
+  
+  const sellers = await sellerDao.selectAlls();
+  if (!sellers) return res.status(400).send(response.errorResponse(400, 'fail to fetching Sellers'));
 
-    let { id } = req.params;
-    
-    let result = await sellerDao.deleteById(id);
+  const meta = { 'total': sellers.length };
+  return res.status(200).send(response.response(200, 'success', meta, sellers));
+}
 
-    if(result.deletedCount == 0){
+/**
+ * select only one seller with req.params.id
+ * Select Only One seller not included in doc but we will need in future feature
+ * sry for added already..
+ * @returns Object
+ */
+const selectOne = async (req, res) => {
+  const seller = await sellerDao.selectOne(req.params.id);
+  if (!seller) return res.status(404).send(response.errorResponse(404, 'The seller with the given ID not found '));
+  const meta = { '_id': seller._id };
+  return res.status(200).send(response.response(200, 'success', meta, seller));
+}
 
-        return res.status(400).send(response.errorResponse(400,'The item with the specified id was not found'));
-    }
+/**
+ * Delete a seller  by id
+ * @param {ObjectId} id - the seller id which will be deleted
+ * @returns Object
+ */
+const deleteOne = async (req, res) => {
+  const seller = await sellerDao.deleteOne(req.params.id);
+  if (seller.deletedCount == 0) return res.status(400).send(response.errorResponse(404, 'The seller with the given ID not found '));
+  return res.status(200).send(response.response(200, 'deleted successfully'));
+}
 
-    let meta = {'_id': id};
-    return res.status(200).send(response.response(200, 'success', meta ));
+/**
+ * activate seller with object id (req.params.id )
+ * @param {ObjectId} id - the seller id which will be activated
+ * @returns Object
+ */
+const activateSeller = async (req, res) => {
+  const sellerActivate = await sellerDao.activateSeller(req.params.id)
+  if (!sellerActivate) return res.status(400).send(response.errorResponse(404, 'The seller with the given request params ID is not found '));
+  const meta = { '_id': sellerActivate._id };
+  return res.status(200).send(response.response(200, 'activated successfully', meta, sellerActivate));
 }
 
 
 /**
- * Update a product item information by id
- * 
- * @author Sai Marn Pha
- * @param {ObjectId} id - product item id
- * @param {string} name - new product name which will be updated
- * @param {number} price - new price of the specified item
- * @param {ObjectId} seller - seller id
- * @param {ObjectId} category - category id 
- * @param {string} description - new description of the specified item
- * 
+ * bann seller with object id (req.params.id )
+ * @param {ObjectId} id - the seller id which will be banned
  * @returns Object
  */
-const updateItem= async (req, res)=>{
+const banSeller = async (req, res) => {
+  const sellerBanned = await sellerDao.banSeller(req.params.id)
+  if (!sellerBanned) return res.status(404).send(response.errorResponse(404, 'The seller with the given request params ID is not found '));
 
-    let { id } = req.params;
-    let  { name, price, seller, category, description } = req.body;
-
-    let update = await sellerDao.update(id, name, price, seller, category, description);
-
-    if(update.matchedCount == 0 ){
-        return res.status(400).send(response.errorResponse(400, 'The item with the specified id was not found'))
-    }
-
-    let meta = {
-        _id : id
-    }
-    let data= await sellerDao.findById(id);
-
-    return res.status(200).json(response.response(200, 'success', meta, data));
-
+  const meta = { '_id': sellerBanned._id };
+  return res.status(200).send(response.response(200, 'banned successfully', meta, sellerBanned));
 }
 
-
-module.exports={
-    uploadItem,
-    deleteItem,
-    updateItem
-    
+module.exports = {
+  createOne, selectAlls,
+  selectOne,
+  deleteOne, activateSeller, banSeller
 }

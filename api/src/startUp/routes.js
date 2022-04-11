@@ -2,20 +2,17 @@
 const express = require('express');
 const cartSessionMiddleware = require('../middlewares/cartSessionMiddleware');
 
-const { seller, carts, orders, adminSellers, categories, common } = require('../routes')
+const { cartRouter, orderRouter, productRouter, categoryRouter, sellerRouter, userRouter } = require('../routes/index')
 
 module.exports = (app) => {
 
     app.use(express.json())
-
-    
-    
-    app.use('/seller', seller)
-    app.use('/admin/sellers', adminSellers);
-    app.use('/admin/categories', categories);
-    app.use('/', common);
-
     cartSessionMiddleware(app);
-    app.use('/user/carts', carts);
-    app.use('/user', orders);
+
+    app.use('/carts', cartRouter)
+    app.use('/orders', orderRouter)
+    app.use('/products', productRouter)
+    app.use('/categories', categoryRouter)
+    app.use('/sellers', sellerRouter)
+    app.use('/users', userRouter)
 }
