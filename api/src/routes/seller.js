@@ -1,10 +1,14 @@
-const { uploadItem, deleteItem, updateItem } = require('../controllers/sellerController');
-
-
+const { createOne, selectAlls, selectOne, deleteOne, activateSeller, banSeller } = require('../controllers/sellerController');
 const router = require('express').Router();
+const validateObjectId = require('../middlewares/validateObjectId')
 
-router.post('/products', uploadItem)
-router.delete('/products/:id', deleteItem)
-router.put('/products/:id', updateItem)
+router.get('/:id', validateObjectId, selectOne)
+
+//Admin middleware goes here
+router.post('/', createOne)
+router.get('/', selectAlls)
+router.delete('/:id', validateObjectId, deleteOne)
+router.patch('/activate/:id', validateObjectId, activateSeller)
+router.patch('/ban/:id', validateObjectId, banSeller)
 
 module.exports = router;

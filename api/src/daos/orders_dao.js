@@ -13,6 +13,7 @@ const insert = async (id, address, items) => ordersImple.createOrder(id, address
 
 /**
  * select order by user Id
+ * @param id - user id
  * @returns Object
  */
 const findById = async (id) => ordersImple.selectOrders(id);

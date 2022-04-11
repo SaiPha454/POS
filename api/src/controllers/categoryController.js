@@ -68,9 +68,24 @@ const deleteCategory = async (req, res) => {
     return res.status(200).send(response.response(200, 'deleted successfully', meta));
 }
 
+/**
+ * get a list of all categories
+ * @param No params
+ * 
+ * @returns Object 
+ */
+ const getAllCategories= async (req, res)=>{
+   
+    let categories = await categoryDao.findAll();
+
+    return res.status(200).json(response.response(200, 'success', { total: categories.length } , categories))
+}
+
+
 module.exports = {
     createCategory,
     updateCategory,
-    deleteCategory
+    deleteCategory,
+    getAllCategories
 
 }

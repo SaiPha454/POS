@@ -1,15 +1,15 @@
-const seller = require('./seller');
-const carts = require('./carts');
-const orders = require('./orders');
-const adminSellers = require('./adminSellers');
-const categories = require('./categories');
-const common = require('./common');
+const cartRouter = require('./cart')
+const orderRouter = require('./order')
+const productRouter = require('./product')
+const categoryRouter = require('./category')
+const sellerRouter = require('./seller')
+const userRouter = require('./user')
 
 module.exports = {
-  seller,
-  carts,
-  orders,
-  adminSellers,
-  categories,
-  common
+  cartRouter,
+  orderRouter,
+  productRouter,
+  categoryRouter,
+  sellerRouter,
+  userRouter
 }

@@ -60,9 +60,21 @@ const deleteById = async (id) => {
 
 }
 
+/**
+ * get a list of all categories
+ * @param No params
+ * 
+ * @returns Object 
+ */
+ const findAll= async ()=>{
+
+    return await Category.find();
+}
+
 module.exports = {
     insert,
     update,
     deleteById,
+    findAll,
     findById
 }

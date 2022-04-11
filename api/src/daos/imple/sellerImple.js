@@ -1,95 +1,37 @@
-const mongoose = require('mongoose')
+const bcrypt = require('bcrypt');
+const { default: mongoose } = require('mongoose');
+const { Seller, Product } = require('../../models')
 
-const Product = require('../../models/product')
+const createOne = async (name, email, password) => {
 
-/**
- * Insert a new item
- * 
- * @param {string} name - product item name
- * @param {number} price - product item price
- * @param {ObjectId} seller - seller id
- * @param {ObjectId} category - category id
- * @param {string} description - description text for the item
- * 
- * @returns Object
- */
+  let seller = new Seller({ name, email, password });
+  const salt = await bcrypt.genSalt(10);
+  seller.password = await bcrypt.hash(seller.password, salt)
 
-const insert =async (name, price, seller, category, description='')=>{
+  return await seller.save();
+}
+const findEmail = async (email) => await Seller.findOne({ email });
 
-    const item = new Product({
-        name,
-        price,
-        seller,
-        category,
-        description
-    });
+const selectAlls = async () => await Seller.find().select('-password');
 
-    return await item.save();
-    
+const selectOne = async (id) => await Seller.findById(id).select('-password');
+
+
+const deleteOne = async (id) => {
+  const seller = await Seller.deleteOne(mongoose.Types.ObjectId(id));
+  if(seller.deletedCount > 0) await Product.find({ seller: mongoose.Types.ObjectId(id) }).deleteMany();
+  return seller;
 }
 
-/**
- * 
- * Delete a product item by id
- * @author Sai Marn Pha
- * 
- * @param {ObjectId} id - the item id which will be deleted
- * 
- * @returns Object
- */
-const deleteById =async (id)=>{
-
-    return await Product.deleteOne({'_id':  mongoose.Types.ObjectId(id)});
-    
+const activateSeller = async (id) => {
+  return await Seller.findByIdAndUpdate({ _id: id, status: 'banned' }, { status: 'active' }, { new: true }).select('-password')
 }
-
-/**
- * 
- * find a product item by id
- * 
- * @author Sai Marn Pha
- * @param {ObjectId} id - the item id 
- * 
- * @returns Object
- */
-const findById= async (id)=>{
-
-    return await Product.findOne({'_id': mongoose.Types.ObjectId(id)});
+const banSeller = async (id) => {
+  return await Seller.findByIdAndUpdate({ _id: id, status: 'active' }, { status: 'banned' }, { new: true }).select('-password')
 }
-
-/**
- * Update a product item information by id
- * 
- * @author Sai Marn Pha
- * @param {ObjectId} id - product item id
- * @param {string} name - new product name which will be updated
- * @param {number} price - new price of the specified item
- * @param {ObjectId} seller - seller id
- * @param {ObjectId} category - category id 
- * @param {string} description - new description of the specified item
- * 
- * @returns Object
- */
-const update = async (id, name, price, seller, category, description)=>{
-
-    let filter = {
-        '_id': mongoose.Types.ObjectId(id)
-    }
-    let update = {
-        name,
-        description,
-        price,
-        seller,
-        category,
-        description
-    }
-
-    return await Product.updateOne(filter, update);
-}
-
-module.exports={
-    insert,
-    deleteById,
-    update,
-    findById
+module.exports = {
+  createOne, findEmail,
+  selectAlls,
+  selectOne,
+  deleteOne, activateSeller, banSeller
 }
