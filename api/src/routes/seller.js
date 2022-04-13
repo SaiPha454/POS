@@ -10,6 +10,7 @@ router.get('/:id/orders', getOrders)
 //Admin middleware goes here
 router.post('/', createOne)
 router.get('/', selectAlls)
+router.get('/:id', selectOne)
 router.delete('/:id', validateObjectId, deleteOne)
 router.patch('/activate/:id', validateObjectId, activateSeller)
 router.patch('/ban/:id', validateObjectId, banSeller)
