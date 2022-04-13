@@ -130,7 +130,6 @@ const getAllItems= async (req, res)=>{
     try {
         result = await productDao.findAll(page, limit, filter, sort);
     } catch (error) {
-        console.log(error)
         return res.status(400).json(response.errorResponse(400, 'Fail to retrive items'))
     }
     

@@ -4,15 +4,17 @@ const cartSessionMiddleware = require('../middlewares/cartSessionMiddleware');
 
 const { cartRouter, orderRouter, productRouter, categoryRouter, sellerRouter, userRouter } = require('../routes/index')
 
+const version = 'api/v1';
+
 module.exports = (app) => {
 
     app.use(express.json())
     cartSessionMiddleware(app);
-
-    app.use('/carts', cartRouter)
-    app.use('/orders', orderRouter)
-    app.use('/products', productRouter)
-    app.use('/categories', categoryRouter)
-    app.use('/sellers', sellerRouter)
-    app.use('/users', userRouter)
+    console.log(version)
+    app.use(`/${version}/carts`, cartRouter)
+    app.use(`/${version}/orders`, orderRouter)
+    app.use(`/${version}/products`, productRouter)
+    app.use(`/${version}/categories`, categoryRouter)
+    app.use(`/${version}/sellers`, sellerRouter)
+    app.use(`/${version}/users`, userRouter)
 }
