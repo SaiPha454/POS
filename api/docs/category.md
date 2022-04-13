@@ -1,6 +1,45 @@
-# Admin - Category endpoints
+# Category endpoints
 
-## Route - /admin/categories
+## Route - /categories
++ ### Description
+  - get a list of all categories
++ ### Method - Get
++ ### Params
+  -  No params
+
++ ### Return
+    <br/>
+
+    ``` json
+    {
+        "status": 200,
+        "message": "success",
+        "meta":{
+            "total": 10 // number of all categories
+        },
+        "data":[
+            {
+                "_id": ObjectId,
+                "name:" "Category Name"
+            },
+            ...
+        ]
+    }
+    ```
+
+
++ ### Error
+    <br/>
+     
+     ```json
+        {
+            "status": 400,
+            "message": "fail"
+        }
+     ```
+
+
+## Route - /categories
 + ### Description
   - create a new category
 + ### Method - Post
@@ -34,7 +73,7 @@
      ```
 
 
-## Route - /admin/categories/:id
+## Route - /categories/:id
 + ### Description
   - update a category
 + ### Method - Patch
@@ -68,7 +107,7 @@
             "message": "fail"
         }
     ```
-## Route - /admin/categories/:id
+## Route - /categories/:id
 + ### Description
   - delete a  category
 + ### Method - Delete

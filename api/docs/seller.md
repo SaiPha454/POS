@@ -1,6 +1,6 @@
-# Admin - Seller CRUD endpoints
+# Seller Account endpoints
 
-## Route - /admin/sellers
+## Route - /sellers
 + ### Description
   - create a new seller
 + ### Method - Post
@@ -38,7 +38,7 @@
         }
      ```
 
-## Route - /admin/sellers
+## Route - /sellers
 + ### Description
   - get a list of all sellers
 + ### Method - Get
@@ -79,7 +79,7 @@
         
      ```
 
-## Route - /admin/sellers/activate/:id
+## Route - /sellers/activate/:id
 + ### Description
   - activate a seller
 + ### Method - Patch
@@ -116,7 +116,7 @@
         }
     ```
 
-## Route - /admin/sellers/ban/:id
+## Route - /sellers/ban/:id
 + ### Description
   - ban a seller
 + ### Method - Patch
@@ -154,7 +154,7 @@
     ```
 
 
-## Route - /admin/sellers/:id
+## Route - /sellers/:id
 + ### Description
   - Delete a  seller . When delete a seller, all of its related products must be deleted too.
   
@@ -181,5 +181,40 @@
         }
     ```
 
+## Route - /sellers/:id
++ ### Description
+  - get a seller info
++ ### Method - Get
++ ### Params
+  -  id - seller id
 
++ ### Return
+    <br/>
 
+    ``` json
+    {
+        "status": 200,
+        "message": "success",
+        "meta":{
+            "total": seller id
+        },
+        "data":{
+                "_id": ObjectId,
+                "name": "seller name",
+                "email": "seller@gmail.com",
+                "status": "active"
+            }
+           
+    }
+    ```
+
++ ### Error
+    <br/>
+     
+     ```json
+        {
+            "status": 400,
+            "message": "fail"
+        }
+        
+     ```
