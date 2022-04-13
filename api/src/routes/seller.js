@@ -1,8 +1,11 @@
-const { createOne, selectAlls, selectOne, deleteOne, activateSeller, banSeller } = require('../controllers/sellerController');
 const router = require('express').Router();
+const { createOne, selectAlls, selectOne, deleteOne, activateSeller, banSeller, getOrders } = require('../controllers/sellerController');
 const validateObjectId = require('../middlewares/validateObjectId')
 
 router.get('/:id', validateObjectId, selectOne)
+
+//seller middleware for seller order endpoint goes here
+router.get('/:id/orders', getOrders)
 
 //Admin middleware goes here
 router.post('/', createOne)

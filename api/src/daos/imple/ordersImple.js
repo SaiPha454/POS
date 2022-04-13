@@ -25,12 +25,33 @@ const createOrder = async (id, address, items) => {
  * select order by user Id
  * @returns Object
  */
-const selectOrders = async (id) => await Order.find({ "user._id": mongoose.Types.ObjectId(id) });
+const findByUserId = async (id) => await Order.find({ "user._id": mongoose.Types.ObjectId(id) });
 
 
+/**
+ * Get the orders related to the seller
+ * 
+ * @author Sai Marn Pha
+ * @param {ObjectId} id - seller id (req)
+ * 
+ * @returns object
+ */
+ const findBySellerId= async (id)=>{
 
+  let orders = await Order.find({'items.seller_id': mongoose.Types.ObjectId(id)});
+  
+  return orders.map(element=>{
+
+      element.items.map((item, index)=>{
+
+          if(item.seller_id.toString() != id) element.items.splice(index, 1);
+      })
+      return element
+  });
+}
 
 module.exports = {
   createOrder,
-  selectOrders,
+  findByUserId,
+  findBySellerId
 }

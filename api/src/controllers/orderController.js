@@ -25,22 +25,7 @@ const createOrder = async (req, res) => {
   return res.status(201).send(response.response(201, 'success', meta, orders));
 }
 
-/**
- * Selecting orders
- * @param {ObjectId} id - order id 
- * 
- * @returns Object
- */
-const selectOrders = async (req, res) => {
-
-  const order = await ordersDao.findById(req.params.id);
-  
-  const meta = { "total": order.length };
-  return res.status(200).send(response.response(200, 'success', meta, order));
-
-}
-
 
 module.exports = {
-  createOrder, selectOrders
+  createOrder
 }

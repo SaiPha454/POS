@@ -16,9 +16,20 @@ const insert = async (id, address, items) => ordersImple.createOrder(id, address
  * @param id - user id
  * @returns Object
  */
-const findById = async (id) => ordersImple.selectOrders(id);
+const findById = async (id) => ordersImple.findByUserId(id);
+
+/**
+ * Get the orders related to the seller
+ * 
+ * @author Sai Marn Pha
+ * @param {ObjectId} id - seller id (req)
+ * 
+ * @returns object
+ */
+ const findBySellerId = async (id)=> ordersImple.findBySellerId(id);
 
 module.exports = {
   insert,
   findById,
+  findBySellerId
 }
