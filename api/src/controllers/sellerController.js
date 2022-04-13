@@ -1,5 +1,6 @@
 const { response } = require('../utils');
 const sellerDao = require('../daos/seller_dao')
+const orderDao = require('../daos/orders_dao')
 
 /**
  * create a new item
@@ -84,8 +85,29 @@ const banSeller = async (req, res) => {
   return res.status(200).send(response.response(200, 'banned successfully', meta, sellerBanned));
 }
 
+
+/**
+ * Get the orders related to the seller
+ * 
+ * @author Sai Marn Pha
+ * @param {ObjectId} id - seller id (req)
+ * 
+ * @returns object
+ */
+ const getOrders= async (req, res)=>{
+
+  let { id }= req.params;
+  
+  let orders= await orderDao.findBySellerId(id);
+  
+  let meta = {total: orders.length}
+
+  res.status(200).json(response.response(200,'success', meta, orders))
+}
+
 module.exports = {
   createOne, selectAlls,
   selectOne,
-  deleteOne, activateSeller, banSeller
+  deleteOne, activateSeller, banSeller,
+  getOrders
 }
