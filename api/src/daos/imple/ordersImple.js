@@ -50,8 +50,49 @@ const findByUserId = async (id) => await Order.find({ "user._id": mongoose.Types
   });
 }
 
+/**
+ * Confirm the order status
+ * 
+ * @param {ObjectId} id - order id
+ * @returns Object
+ */
+const confirmOrder= async (id)=>{
+  let status = 'confirmed';
+  return await Order.findOneAndUpdate({'_id': mongoose.Types.ObjectId(id)}, {'status': status})
+}
+
+/**
+ * Get all orders
+ * 
+ * @param {number} page - page index 
+ * @param {number} limit - number of orders per page
+ * @param {Object} filter - filter object eg. filter[status]= pending
+ * 
+ * @returns Object
+ */
+const findAll= async (page, limit= 0, filter= {})=>{
+  
+    let filterObject = {} ;
+    for (const key in filter) {
+        if (key == 'status') filterObject[key] = filter[key];
+    }
+
+    let skip = ( page  -1) * limit;
+    let total_orders = await Order.find(filterObject).count();
+    let orders = await Order.find(filterObject).skip(skip).limit(limit);
+    let total_pages = page && parseInt((total_orders / limit) + 0.99) || 0;
+    return {
+        total_orders ,
+        total_pages,
+        orders,
+        skip
+    }
+}
+
 module.exports = {
   createOrder,
   findByUserId,
-  findBySellerId
+  findBySellerId,
+  confirmOrder,
+  findAll
 }
