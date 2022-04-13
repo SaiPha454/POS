@@ -28,8 +28,29 @@ const findById = async (id) => ordersImple.findByUserId(id);
  */
  const findBySellerId = async (id)=> ordersImple.findBySellerId(id);
 
+ /**
+ * Confirm the order status
+ * 
+ * @param {ObjectId} id - order id
+ * @returns Object
+ */
+const confirmOrder = async (id)=> ordersImple.confirmOrder(id);
+
+/**
+ * Get all orders
+ * 
+ * @param {number} page - page index 
+ * @param {number} limit - number of orders per page
+ * @param {Object} filter - filter object eg. filter[status]= pending
+ * 
+ * @returns Object
+ */
+const findAll = async (page, limit, filter)=> ordersImple.findAll(page, limit, filter);
+
 module.exports = {
   insert,
   findById,
-  findBySellerId
+  findBySellerId,
+  confirmOrder,
+  findAll
 }
