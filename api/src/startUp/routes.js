@@ -10,7 +10,7 @@ module.exports = (app) => {
 
     app.use(express.json())
     cartSessionMiddleware(app);
-    console.log(version)
+    
     app.use(`/${version}/carts`, cartRouter)
     app.use(`/${version}/orders`, orderRouter)
     app.use(`/${version}/products`, productRouter)
