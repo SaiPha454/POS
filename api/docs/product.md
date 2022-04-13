@@ -1,39 +1,37 @@
-# Common Endpoints (for all users, sellers and even admin)
+# Product  endpoints
 
-<br/>
-<br/>
-<br/>
-
-# Category endpoints
-
-## Route - /categories
+## Route - /products
 + ### Description
-  - get a list of all categories
-+ ### Method - Get
+  - upload a product item
++ ### Method - Post
 + ### Params
-  -  No params
+  -  name - Product Name (req)
+  -  price - 1200 (req)
+  -  seller - seller ObjectId (req)
+  -  category - category ObjectId (req)
+  -  description - some description about the item (option)
 
 + ### Return
     <br/>
 
     ``` json
     {
-        "status": 200,
-        "message": "success",
+        "status": 201,
+        "message": "sucess",
         "meta":{
-            "total": 10 // number of all categories
+            "_id": ObjectId //uploaded item id
         },
-        "data":[
-            {
-                "_id": ObjectId,
-                "name:" "Category Name"
-            },
-            ...
-        ]
+        "data":{
+            
+            "_id": ObjectId,
+            "name": "Product name", 
+            "price": 1200,
+            "description": "description for the item",
+            "seller": ObjectId,
+            "category": ObjectId
+        }
     }
     ```
-
-
 + ### Error
     <br/>
      
@@ -45,12 +43,75 @@
      ```
 
 
+## Route - /products/:id
++ ### Description
+  - update a product item
++ ### Method - PUT
++ ### Params
+  -  name - Product Name (req)
+  -  price - 1200 (req)
+  -  seller - seller ObjectId (req)
+  -  category - category ObjectId (req)
+  -  description - some description about the item (option)
 
-<br/>
-<br/>
-<br/>
++ ### Return
+    <br/>
 
-# Product endpoints
+    ``` json
+    {
+        "status": 200,
+        "message": "sucess",
+        "message": "sucess",
+        "meta":{
+            "_id": ObjectId //updated item id
+        },
+        "data":{
+            
+            "_id": ObjectId,
+            "name": "product name", 
+            "price": 1200,
+            "description": "description for the item",
+            "seller": ObjectId,
+            "category": ObjectId
+        }
+    }
+    ```
+
++ ### Error
+    <br/>
+     
+     ```json
+        {
+            "status": 400,
+            "message": "fail"
+        }
+    ```
+## Route - /products/:id
++ ### Description
+  - delete a  product item
++ ### Method - Delete
++ ### Params
+  -  id - product item ObjectId (required)
+
++ ### Return
+    <br/>
+
+    ``` json
+    {
+        "status": 200,
+        "message": "deleted successfully"
+    }
+    ```
++ ### Error
+    <br/>
+     
+     ```json
+        {
+            "status": 400,
+            "message": "fail"
+        }
+    ```
+
 
 ## Route - /products/:id
 + ### Description
@@ -177,3 +238,6 @@
             "message": "fail"
         }
     ```
+
+
+
