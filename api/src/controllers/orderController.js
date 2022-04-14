@@ -16,8 +16,8 @@ const createOrder = async (req, res) => {
     return res.status(400).send(response.errorResponse(400, 'No items to be ordered'));
   }
 
-  const { id, address } = req.body
-  const orders = await ordersDao.insert(id, address, items )
+  const { user_id, address } = req.body
+  const orders = await ordersDao.insert(user_id, address, items )
   if (!orders) return res.status(400).send(response.errorResponse(400, 'Something wrong when creating orders...'));
 
   req.session.items = [];

@@ -1,15 +1,17 @@
 const { uploadItem, deleteItem, updateItem, getItemById, getAllItems } = require('../controllers/productController');
+const validateBodyObjectId = require('../middlewares/validateBodyObjectId');
+const validateObjectId = require('../middlewares/validateParamObjectId');
 
 
 const router = require('express').Router();
 
 //Accessible to every one
-router.get('/:id', getItemById);
+router.get('/:id', validateObjectId, getItemById);
 router.get('/', getAllItems);
 
 //seller middleware goes here
-router.post('/', uploadItem)
-router.delete('/:id', deleteItem)
-router.put('/:id', updateItem)
+router.post('/', validateBodyObjectId('seller'), validateBodyObjectId('category'),  uploadItem)
+router.delete('/:id', validateObjectId, deleteItem)
+router.put('/:id', validateObjectId, updateItem)
 
 module.exports = router;
